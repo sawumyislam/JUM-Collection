@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>JUM COLLECTION — Product</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="brand">JUM COLLECTION</a>
+            <nav class="site-nav">
+                <a href="index.html">Home</a>
+                <a href="dresses.html">Dresses</a>
+                <a href="bags.html">Bags</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-hero single-product-hero image-left">
+            <div class="container hero-content">
+                <div class="hero-copy">
+                    <h1 id="product-title">Loading product...</h1>
+                    <p id="product-description"></p>
+                    <div class="hero-actions">
+                        <a id="whatsapp-link" href="#" class="btn btn-primary">Order via WhatsApp</a>
+                        <a id="category-back-link" href="dresses.html" class="btn btn-secondary">Back to collection</a>
+                    </div>
+                </div>
+                <div class="product-display">
+                    <img id="product-image" src="" alt="Product image" class="bag-photo zoomable" />
+                </div>
+            </div>
+        </section>
+
+        <div class="zoom-overlay" id="zoomOverlay" aria-hidden="true">
+            <div class="zoom-box">
+                <button type="button" class="zoom-close" id="zoomClose" aria-label="Close zoom">×</button>
+                <img id="zoomImage" class="zoom-content" alt="Zoomed product image" />
+            </div>
+        </div>
+
+        <section class="product-detail">
+            <div class="container detail-grid">
+                <div class="detail-panel">
+                    <h2>About this product</h2>
+                    <p id="detail-description"></p>
+                    <ul class="product-meta" id="detail-meta"></ul>
+                    <div class="card-note"><strong>Note:</strong> Orders are placed via WhatsApp. No online checkout is
+                        available yet.</div>
+                </div>
+                <div class="detail-summary">
+                    <div class="product-card mini-card">
+                        <h3 id="mini-1-title"></h3>
+                        <p id="mini-1-desc"></p>
+                    </div>
+                    <div class="product-card mini-card">
+                        <h3 id="mini-2-title"></h3>
+                        <p id="mini-2-desc"></p>
+                    </div>
+                    <div class="product-card mini-card">
+                        <h3>Price</h3>
+                        <p id="mini-price-val"></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p>© 2026 JUM COLLECTION. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="js/product.js" defer></script>
+    <script src="js/photo-zoom.js" defer></script>
+</body>
+
+</html>

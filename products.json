@@ -1,0 +1,92 @@
+[
+  {
+    "id": "dress-evening",
+    "category": "dresses",
+    "title": "Evening Silk Dress",
+    "description": "Soft silhouettes with refined details made for confident evening looks.",
+    "price": "₦28,000",
+    "imageUrl": "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1200&q=80",
+    "href": "product.html?id=dress-evening",
+    "whatsappText": "Hello, I would like to order the Evening Silk Dress",
+    "featured": true,
+    "meta": [
+      "Fabric: Silk blend",
+      "Fit: Tailored with soft movement",
+      "Color: Warm brown",
+      "Sizes: S, M, L"
+    ],
+    "mini1": {
+      "title": "Style Details",
+      "desc": "Elegant finishing, minimal lines, and a flattering drape."
+    },
+    "mini2": {
+      "title": "Perfect For",
+      "desc": "Special outings and refined evening looks."
+    }
+  },
+  {
+    "id": "bag-tote",
+    "category": "bags",
+    "title": "Minimal Leather Tote",
+    "description": "Structured shapes and rich textures designed to carry your essentials beautifully.",
+    "price": "₦22,000",
+    "imageUrl": "https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?auto=format&fit=crop&w=1200&q=80",
+    "href": "product.html?id=bag-tote",
+    "whatsappText": "Hello, I would like to order the Minimal Leather Tote",
+    "featured": true,
+    "meta": ["Material: Leather", "Size: Large", "Color: Brown"],
+    "mini1": {
+      "title": "Style Details",
+      "desc": "Structured body with soft interior lining."
+    },
+    "mini2": {
+      "title": "Perfect For",
+      "desc": "Everyday carry and work essentials."
+    }
+  },
+  {
+    "id": "dress-wrap",
+    "category": "dresses",
+    "title": "Daytime Wrap Dress",
+    "description": "Comfort-forward shape with breezy movement and gentle texture.",
+    "price": "₦18,500",
+    "imageUrl": "https://images.unsplash.com/photo-1520975915044-6f3b3a2b9a3b?auto=format&fit=crop&w=1200&q=80",
+    "href": "product.html?id=dress-wrap",
+    "whatsappText": "Hello, I would like to order the Daytime Wrap Dress",
+    "featured": false,
+    "meta": [
+      "Fabric: Lightweight blend",
+      "Fit: Wrap",
+      "Color: Soft tan",
+      "Sizes: S, M, L"
+    ],
+    "mini1": {
+      "title": "Style Details",
+      "desc": "Breezy silhouette with adjustable wrap waist."
+    },
+    "mini2": {
+      "title": "Perfect For",
+      "desc": "Daytime events and easy everyday wear."
+    }
+  },
+  {
+    "id": "bag-crossbody",
+    "category": "bags",
+    "title": "Signature Crossbody",
+    "description": "Lightweight comfort with refined hardware and subtle luxury.",
+    "price": "₦12,800",
+    "imageUrl": "https://images.unsplash.com/photo-1495121605193-b116b5b09f3a?auto=format&fit=crop&w=1200&q=80",
+    "href": "product.html?id=bag-crossbody",
+    "whatsappText": "Hello, I would like to order the Signature Crossbody",
+    "featured": false,
+    "meta": ["Material: Leatherette", "Size: Small", "Color: Beige"],
+    "mini1": {
+      "title": "Style Details",
+      "desc": "Compact design with adjustable strap."
+    },
+    "mini2": {
+      "title": "Perfect For",
+      "desc": "Hands-free days and travel."
+    }
+  }
+]

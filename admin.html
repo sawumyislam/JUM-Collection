@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Upload — JUM COLLECTION</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <header class="site-header">
+        <div class="container header-inner">
+            <a href="index.html" class="brand">JUM COLLECTION</a>
+            <nav class="site-nav">
+                <a href="index.html">Home</a>
+                <a href="dresses.html">Dresses</a>
+                <a href="bags.html">Bags</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-hero collections-hero">
+            <div class="container hero-content">
+                <div class="hero-copy">
+                    <p class="section-label">Admin Upload</p>
+                    <h1>Convert an Excel or CSV file into products.json</h1>
+                    <p>Use this admin page to create a new product catalog file for the site. After conversion, download
+                        the generated file and replace the existing <code>products.json</code> in your project.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="collection-section">
+            <div class="container admin-panel">
+                <div class="upload-card">
+                    <label for="product-file">Select a spreadsheet</label>
+                    <input id="product-file" type="file" accept=".xlsx,.xls,.csv" />
+                    <button id="convert-button" class="btn btn-primary" type="button">Upload</button>
+                    <p class="note">Required columns: <strong>id</strong>, <strong>category</strong>,
+                        <strong>title</strong>, <strong>description</strong>, <strong>price</strong>,
+                        <strong>imageUrl</strong>, <strong>whatsappText</strong>. Optional columns:
+                        <strong>featured</strong>, <strong>mini1_title</strong>, <strong>mini1_desc</strong>,
+                        <strong>mini2_title</strong>, <strong>mini2_desc</strong>,
+                        <strong>meta1</strong>-<strong>meta4</strong>.
+                    </p>
+                    <div id="result-area" class="admin-result">
+                        <p>Select a file and click Upload to begin.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-inner">
+            <p>© 2026 JUM COLLECTION. All rights reserved.</p>
+        </div>
+    </footer>
+    <script src="js/admin.js" defer></script>
+</body>
+
+</html>
