@@ -30,8 +30,8 @@ function renderProduct(id) {
       document.getElementById("mini-2-desc").textContent = product.mini2.desc;
       document.getElementById("mini-price-val").textContent = product.price;
       // Store WhatsApp number must be in international format without '+' and without leading 0.
-      // User supplied local number '01868198519' — convert to Bangladesh format: '880' + number without leading 0
-      const STORE_WHATSAPP_NUMBER = "8801868198519"; // international format for +8801868198519
+      // User supplied local number '01719133076' — convert to Bangladesh format: '880' + number without leading 0
+      const STORE_WHATSAPP_NUMBER = "8801719133076"; // international format for +8801719133076
       function buildWhatsAppUrl(number, text) {
         const encoded = encodeURIComponent(text);
         if (number && number.length) {
