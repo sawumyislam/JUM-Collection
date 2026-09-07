@@ -124,3 +124,50 @@ Use the Admin → Upload products JSON to upload the file. The admin UI validate
 ## Notes
 
 This system is designed to be simple and maintainable. It gives the client a realistic one-stop flow for approving products and pushing them to the live store without manual JSON edits.
+
+## Deployment notes (uploads & nginx)
+
+When deploying to production, a few server and reverse-proxy settings must be configured so JSON uploads work reliably:
+
+- Upload storage and size limit
+  - The server now uses disk-backed uploads (multer.diskStorage) to avoid exhausting memory with large JSON files.
+  - The maximum accepted upload size is controlled by the environment variable `UPLOAD_MAX_BYTES` (default: 10 * 1024 * 1024 = 10 MB). Increase this if you expect larger files.
+  - Example (bash):
+
+    export UPLOAD_MAX_BYTES=52428800   # 50 MB
+
+- Reverse proxy (nginx) configuration
+  - If you use nginx (or another reverse proxy) in front of Node, it will commonly reject large requests before they reach Node. Ensure `client_max_body_size` is set to at least the same value as `UPLOAD_MAX_BYTES`.
+  - Example nginx snippet (in your server / location block):
+
+    server {
+      # ...
+      client_max_body_size 50M;   # allow 50 MB uploads
+      # ...
+    }
+
+- Temporary directory and permissions
+  - Multer writes uploads to the OS temporary directory by default (os.tmpdir()). Ensure the process user has write access to that directory and enough free space.
+  - If your environment restricts /tmp, set a writable temp path via the `TMPDIR` environment variable or modify the multer destination in `server.js`.
+
+- Handling very large uploads (>100MB)
+  - For extremely large product files consider using a streaming JSON parser or chunked upload flow to avoid large intermediate files.
+  - Alternatively, upload the file to object storage (S3, GCS) and provide the server a URL to fetch and process asynchronously.
+
+- HTTP error mapping
+  - The server returns HTTP 413 when multer rejects an upload due to file size limits. The admin UI shows this as a clear error message when the server responds.
+
+- Environment variables summary
+  - ADMIN_USER, ADMIN_PASS — basic-auth for admin routes (set to secure values in production)
+  - PRODUCT_SHEET_URL — optional Google Sheets CSV export URL (if used)
+  - UPLOAD_MAX_BYTES — maximum upload size in bytes (default 10485760 = 10MB)
+
+- Best practice checklist before deploying
+  1. Set ADMIN_USER and ADMIN_PASS to strong credentials.
+  2. Configure `UPLOAD_MAX_BYTES` to the desired limit.
+  3. Set `client_max_body_size` in nginx to the same or larger value.
+  4. Ensure the server process user can write to the temp directory and has sufficient disk space.
+  5. Restart the Node server after environment changes.
+  6. Monitor `audit-log.json` and `archived-products.json` (or move audit to centralized logging for production use).
+
+If you'd like, I can add a short Kubernetes/NGINX configuration example or a systemd service file to the repo to make deployment smoother.
