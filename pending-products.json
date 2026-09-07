@@ -359,5 +359,24 @@
     "meta3": "in-stock",
     "meta4": "rating-4.9",
     "href": "product.html?id=PROD-1019"
+  },
+  {
+    "id": "PROD-1020",
+    "category": "bags",
+    "title": "Luxury Metallic Evening Bag",
+    "description": "High-quality luxury metallic evening bag designed for comfort, style, and everyday durability.",
+    "price": 145,
+    "imageUrl": "https://example.com/images/bags/20.jpg",
+    "whatsappText": "Hi! I'm interested in buying the Luxury Metallic Evening Bag (ID: PROD-1020). Is it still available?",
+    "featured": "TRUE",
+    "mini1_title": "Material & Care",
+    "mini1_desc": "Genuine eco-certified leather. Wipe clean with damp cloth.",
+    "mini2_title": "Shipping Info",
+    "mini2_desc": "Ships next business day. Free tracking included.",
+    "meta1": "luxury-metallic-evening-bag",
+    "meta2": "buy-bags-online",
+    "meta3": "in-stock",
+    "meta4": "rating-4.5",
+    "href": "product.html?id=PROD-1020"
   }
 ]
