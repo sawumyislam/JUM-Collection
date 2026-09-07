@@ -1,11 +1,21 @@
 const express = require("express");
 const path = require("path");
 const fs = require("fs").promises;
+const fsSync = require("fs");
+const os = require("os");
 const multer = require("multer");
 const XLSX = require("xlsx");
 
 const app = express();
-const upload = multer({ storage: multer.memoryStorage() });
+// Use disk storage for uploads in production to support large JSON files without exhausting memory.
+const UPLOAD_MAX_BYTES = Number(process.env.UPLOAD_MAX_BYTES || 10 * 1024 * 1024); // default 10MB
+const upload = multer({
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => cb(null, os.tmpdir()),
+    filename: (req, file, cb) => cb(null, `${Date.now()}-${Math.random().toString(36).slice(2)}-${file.originalname.replace(/[^a-zA-Z0-9.\-_]/g, '_')}`),
+  }),
+  limits: { fileSize: UPLOAD_MAX_BYTES },
+});
 const PRODUCTS_JSON = path.join(__dirname, "products.json");
 const PENDING_PRODUCTS_JSON = path.join(__dirname, "pending-products.json");
 const PRODUCT_SHEET_URL =
@@ -145,6 +155,14 @@ app.use(express.static(path.join(__dirname), {
   }
 }));
 
+// Error handler to convert multer file-size errors into JSON responses
+app.use((err, req, res, next) => {
+  if (err && (err.code === 'LIMIT_FILE_SIZE' || err.code === 'LIMIT_FIELD_VALUE')) {
+    return res.status(413).json({ error: 'Uploaded file is too large.' });
+  }
+  next(err);
+});
+
 app.get("/api/products", async (req, res) => {
   const products = await readJsonFile(PRODUCTS_JSON, []);
   res.json(products);
@@ -205,7 +223,20 @@ app.post(
     const errors = [];
 
     try {
-      if (req.file && req.file.buffer) {
+      if (req.file && req.file.path) {
+        // uploaded to disk by multer; read and parse
+        const text = await fs.readFile(req.file.path, 'utf8');
+        try {
+          products = JSON.parse(text);
+        } catch (parseErr) {
+          console.error('Failed to parse uploaded JSON file', { file: req.file.path, err: parseErr.message });
+          return res.status(400).json({ error: 'Uploaded file is not valid JSON.' });
+        } finally {
+          // remove temp file
+          try { fs.unlink(req.file.path); } catch (e) { /* ignore */ }
+        }
+      } else if (req.file && req.file.buffer) {
+        // fallback for memory-based uploads (unlikely with diskStorage)
         const text = req.file.buffer.toString("utf8");
         products = JSON.parse(text);
       } else if (Array.isArray(req.body)) {
@@ -214,7 +245,7 @@ app.post(
         products = req.body.products;
       }
     } catch (err) {
-      console.error(err);
+      console.error('Error processing uploaded file', err);
       return res.status(400).json({ error: "Uploaded file is not valid JSON." });
     }
 
