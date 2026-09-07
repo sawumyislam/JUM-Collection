@@ -1,0 +1,29 @@
+[
+  {
+    "id": "dress-evening",
+    "category": "dresses",
+    "title": "Evening Silk Dress",
+    "description": "Soft silhouettes with refined details made for confident evening looks.",
+    "price": "₦28,000",
+    "imageUrl": "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=1200&q=80",
+    "href": "product.html?id=dress-evening",
+    "whatsappText": "Hello, I would like to order the Evening Silk Dress",
+    "featured": true,
+    "meta": [
+      "Fabric: Silk blend",
+      "Fit: Tailored with soft movement",
+      "Color: Warm brown",
+      "Sizes: S, M, L"
+    ],
+    "mini1": {
+      "title": "Style Details",
+      "desc": "Elegant finishing, minimal lines, and a flattering drape."
+    },
+    "mini2": {
+      "title": "Perfect For",
+      "desc": "Special outings and refined evening looks."
+    },
+    "archivedAt": "2026-09-07T05:24:24.947Z",
+    "archivedBy": "admin"
+  }
+]

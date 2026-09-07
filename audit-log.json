@@ -1,0 +1,192 @@
+[
+  {
+    "action": "archive",
+    "ids": [
+      "dress-evening"
+    ],
+    "by": "admin",
+    "at": "2026-09-07T05:24:24.948Z",
+    "archivedCount": 1
+  },
+  {
+    "action": "reject",
+    "ids": [
+      "104"
+    ],
+    "by": "admin",
+    "at": "2026-09-07T05:27:12.495Z"
+  },
+  {
+    "action": "reject",
+    "ids": [
+      "103"
+    ],
+    "by": "admin",
+    "at": "2026-09-07T05:27:15.845Z"
+  },
+  {
+    "action": "reject",
+    "ids": [
+      "102"
+    ],
+    "by": "admin",
+    "at": "2026-09-07T05:27:18.774Z"
+  },
+  {
+    "action": "delete",
+    "ids": [
+      "bag-crossbody"
+    ],
+    "by": "admin",
+    "at": "2026-09-07T05:27:23.263Z",
+    "archivedCount": 0
+  },
+  {
+    "action": "delete",
+    "ids": [
+      "dress-wrap"
+    ],
+    "by": "admin",
+    "at": "2026-09-07T05:27:25.861Z",
+    "archivedCount": 0
+  },
+  {
+    "action": "delete",
+    "ids": [
+      "dress-evening"
+    ],
+    "by": "admin",
+    "at": "2026-09-07T05:33:25.838Z",
+    "archivedCount": 0
+  },
+  {
+    "action": "delete",
+    "ids": [
+      "bag-tote"
+    ],
+    "by": "admin",
+    "at": "2026-09-07T05:33:42.768Z",
+    "archivedCount": 0
+  },
+  {
+    "action": "delete",
+    "ids": [
+      "sku-100"
+    ],
+    "by": "admin",
+    "at": "2026-09-07T05:34:09.919Z",
+    "archivedCount": 0
+  },
+  {
+    "action": "blocked-delete-attempt",
+    "ids": [
+      "PROD-1020"
+    ],
+    "blocked": [
+      "PROD-1020"
+    ],
+    "by": "admin",
+    "at": "2026-09-07T05:36:11.528Z"
+  },
+  {
+    "action": "blocked-delete-attempt",
+    "ids": [
+      "PROD-1020"
+    ],
+    "blocked": [
+      "PROD-1020"
+    ],
+    "by": "admin",
+    "at": "2026-09-07T05:36:35.294Z"
+  },
+  {
+    "action": "delete",
+    "ids": [
+      "PROD-1001"
+    ],
+    "by": "admin",
+    "at": "2026-09-07T05:36:58.080Z",
+    "archivedCount": 0
+  },
+  {
+    "action": "blocked-delete-attempt",
+    "ids": [
+      "PROD-1020"
+    ],
+    "blocked": [
+      "PROD-1020"
+    ],
+    "by": "admin",
+    "at": "2026-09-07T05:37:11.812Z"
+  },
+  {
+    "action": "blocked-delete-attempt",
+    "ids": [
+      "PROD-1020"
+    ],
+    "blocked": [
+      "PROD-1020"
+    ],
+    "by": "admin",
+    "at": "2026-09-07T05:37:19.359Z"
+  },
+  {
+    "action": "delete",
+    "ids": [
+      "PROD-1019"
+    ],
+    "by": "admin",
+    "at": "2026-09-07T05:37:25.614Z",
+    "archivedCount": 0
+  },
+  {
+    "action": "blocked-delete-attempt",
+    "ids": [
+      "PROD-1020"
+    ],
+    "blocked": [
+      "PROD-1020"
+    ],
+    "by": "admin",
+    "at": "2026-09-07T05:37:31.328Z"
+  },
+  {
+    "action": "blocked-delete-attempt",
+    "ids": [
+      "PROD-1016"
+    ],
+    "blocked": [
+      "PROD-1016"
+    ],
+    "by": "admin",
+    "at": "2026-09-07T05:37:37.913Z"
+  },
+  {
+    "action": "blocked-delete-attempt",
+    "ids": [
+      "PROD-1016"
+    ],
+    "blocked": [
+      "PROD-1016"
+    ],
+    "by": "admin",
+    "at": "2026-09-07T05:37:39.129Z"
+  },
+  {
+    "action": "delete",
+    "ids": [
+      "PROD-1020"
+    ],
+    "by": "admin",
+    "at": "2026-09-07T05:42:53.219Z",
+    "archivedCount": 0
+  },
+  {
+    "action": "approve",
+    "ids": [
+      "PROD-1020"
+    ],
+    "by": "admin",
+    "at": "2026-09-07T05:43:20.035Z"
+  }
+]
