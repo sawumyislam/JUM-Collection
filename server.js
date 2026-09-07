@@ -14,9 +14,6 @@ const PRODUCT_SHEET_URL =
 
 const ADMIN_USER = process.env.ADMIN_USER || "admin";
 const ADMIN_PASS = process.env.ADMIN_PASS || "admin123";
-// Comma-separated list of protected product ids that cannot be deleted (override in production env)
-const PROTECTED_IDS = (process.env.PROTECTED_IDS || "").split(',').map(s => s.trim()).filter(Boolean);
-const PROTECTED_IDS_SET = new Set(PROTECTED_IDS);
 
 function sendAuthChallenge(res) {
   res.set("WWW-Authenticate", 'Basic realm="Admin Area"');
@@ -320,20 +317,6 @@ app.post("/api/products/reject", adminAuth, async (req, res) => {
   }
 });
 
-// helper: decide if a product is protected
-function isProtectedProduct(product) {
-  if (!product) return false;
-  // explicit protected flag (boolean or truthy string)
-  const prot = product.protected;
-  if (prot === true) return true;
-  if (typeof prot === 'string' && /^(true|yes|1)$/i.test(prot)) return true;
-  // featured products are considered critical by default
-  if (product.featured === true || (typeof product.featured === 'string' && /^(true|yes|1)$/i.test(product.featured))) return true;
-  // environment-provided protected ids
-  if (PROTECTED_IDS_SET.has(String(product.id))) return true;
-  return false;
-}
-
 // Delete/archive endpoint: remove from published products.json, optionally archive
 app.post("/api/products/delete", adminAuth, async (req, res) => {
   const ids = Array.isArray(req.body?.ids) ? req.body.ids : [];
@@ -349,14 +332,6 @@ app.post("/api/products/delete", adminAuth, async (req, res) => {
     const currentProducts = await readJsonFile(PRODUCTS_JSON, []);
 
     const toRemove = currentProducts.filter((p) => idsSet.has(String(p.id)));
-    // check for protected items
-    const protectedItems = toRemove.filter(isProtectedProduct).map(p => ({ id: p.id, title: p.title }));
-    if (protectedItems.length) {
-      // record attempted blocked deletion
-      await appendAuditEntry({ action: 'blocked-delete-attempt', ids: Array.from(idsSet), blocked: protectedItems.map(p => p.id), by: req.adminUser || null, at: new Date().toISOString() });
-      return res.status(403).json({ error: 'One or more items are protected and cannot be deleted.', blocked: protectedItems });
-    }
-
     const remaining = currentProducts.filter((p) => !idsSet.has(String(p.id)));
 
     // write remaining products
