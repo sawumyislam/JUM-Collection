@@ -161,9 +161,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const previewPrice = document.getElementById("preview-price");
   const previewDescription = document.getElementById("preview-description");
   const previewWhatsapp = document.getElementById("preview-whatsapp");
+  const previewArchiveBtn = document.getElementById("preview-archive");
+  const previewRemoveBtn = document.getElementById("preview-remove");
+  const publishedList = document.getElementById("published-list");
+  const removeButton = document.getElementById("remove-selected");
+  const archiveButton = document.getElementById("archive-selected");
+  let lastPublishedProducts = [];
+  let currentPreviewId = null;
 
   function showPreview(product) {
     if (!previewModal) return;
+    currentPreviewId = product.id;
     previewImage.src = product.imageUrl || "";
     previewImage.alt = product.title || "";
     previewTitle.textContent = product.title || "";
@@ -188,5 +196,104 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
+  // Load published products and wire published actions
+  async function loadPublishedProducts() {
+    if (!publishedList) return;
+    try {
+      const response = await fetch('/api/products', { cache: 'no-store' });
+      const products = response.ok ? await response.json() : [];
+      lastPublishedProducts = products || [];
+
+      if (!products.length) {
+        publishedList.innerHTML = '<p>No published products found.</p>';
+        return;
+      }
+
+      publishedList.innerHTML = products.map(product => `
+        <label class="pending-row">
+          <input type="checkbox" value="${product.id}" class="published-check" />
+          <div class="pending-summary">
+            <img src="${product.imageUrl}" alt="${product.title}" />
+            <div>
+              <strong>${product.title}</strong>
+              <span>${product.category}</span>
+              <small>${product.price}</small>
+            </div>
+          </div>
+          <div class="pending-actions">
+            <button type="button" class="btn btn-tertiary preview-btn" data-id="${product.id}">Preview</button>
+          </div>
+        </label>
+      `).join('');
+    } catch (err) {
+      console.error(err);
+      publishedList.innerHTML = '<p>Unable to load published products.</p>';
+    }
+  }
+
+  async function removeSelectedProducts(ids, archive = false) {
+    if (!ids || !ids.length) {
+      showMessage('Select at least one product to remove.', true);
+      return;
+    }
+
+    try {
+      const resp = await fetch('/api/products/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ids, archive }),
+      });
+      const data = await resp.json();
+      if (!resp.ok) {
+        showMessage(data.error || 'Remove failed.', true);
+        return;
+      }
+      showMessage(`${data.removed || 0} product(s) removed.${archive ? ` ${data.archived || 0} archived.` : ''}`);
+      // refresh lists
+      await loadPublishedProducts();
+      await loadPendingProducts();
+      hidePreview();
+    } catch (err) {
+      console.error(err);
+      showMessage('Remove failed. Please try again.', true);
+    }
+  }
+
+  // Wire published list preview and published actions
+  if (publishedList) {
+    publishedList.addEventListener('click', (e) => {
+      const btn = e.target.closest('.preview-btn');
+      if (!btn) return;
+      const id = btn.dataset.id;
+      const product = lastPublishedProducts.find((p) => p.id === id);
+      if (product) showPreview(product);
+    });
+  }
+
+  if (removeButton) removeButton.addEventListener('click', () => {
+    const selected = Array.from(document.querySelectorAll('.published-check:checked')).map(c => c.value);
+    removeSelectedProducts(selected, false);
+  });
+  if (archiveButton) archiveButton.addEventListener('click', () => {
+    const selected = Array.from(document.querySelectorAll('.published-check:checked')).map(c => c.value);
+    removeSelectedProducts(selected, true);
+  });
+
+  // preview modal quick actions
+  if (previewArchiveBtn) {
+    previewArchiveBtn.addEventListener('click', () => {
+      if (!currentPreviewId) return;
+      removeSelectedProducts([currentPreviewId], true);
+    });
+  }
+  if (previewRemoveBtn) {
+    previewRemoveBtn.addEventListener('click', () => {
+      if (!currentPreviewId) return;
+      removeSelectedProducts([currentPreviewId], false);
+    });
+  }
+
+  // initial load
   loadPendingProducts();
+  loadPublishedProducts();
 });

@@ -58,6 +58,17 @@
                         <p>Loading products to review...</p>
                     </div>
                 </div>
+
+                <div class="upload-card published-card">
+                  <div class="pending-header">
+                    <h2>Published products</h2>
+                    <button id="remove-selected" class="btn btn-secondary" type="button">Remove selected</button>
+                    <button id="archive-selected" class="btn btn-tertiary" type="button">Archive selected</button>
+                  </div>
+                  <div id="published-list" class="pending-list">
+                    <p>Loading published products...</p>
+                  </div>
+                </div>
             </div>
         </section>
     </main>
@@ -80,7 +91,11 @@
             <p class="meta-line"><strong>Category:</strong> <span id="preview-category"></span></p>
             <p class="meta-line"><strong>Price:</strong> <span id="preview-price"></span></p>
             <p id="preview-description"></p>
-            <p class="meta-actions"><a id="preview-whatsapp" class="btn btn-primary" href="#" target="_blank" rel="noopener">Order via WhatsApp</a></p>
+            <p class="meta-actions">
+              <a id="preview-whatsapp" class="btn btn-primary" href="#" target="_blank" rel="noopener">Order via WhatsApp</a>
+              <button id="preview-archive" class="btn btn-tertiary" type="button">Archive</button>
+              <button id="preview-remove" class="btn btn-secondary" type="button">Remove</button>
+            </p>
           </div>
         </div>
       </div>
