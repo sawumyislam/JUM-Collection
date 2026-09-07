@@ -258,17 +258,20 @@ app.post("/api/products/approve", adminAuth, async (req, res) => {
     return res.status(400).json({ error: "Select at least one product to approve." });
   }
 
+  // normalize ids to strings for robust comparison
+  const idsSet = new Set(ids.map((i) => String(i)));
+
   try {
     await ensureJsonFile(PRODUCTS_JSON, []);
     await ensureJsonFile(PENDING_PRODUCTS_JSON, []);
     const currentProducts = await readJsonFile(PRODUCTS_JSON, []);
     const pendingProducts = await readJsonFile(PENDING_PRODUCTS_JSON, []);
-    const approvedProducts = pendingProducts.filter((product) => ids.includes(product.id));
-    const remainingPending = pendingProducts.filter((product) => !ids.includes(product.id));
+    const approvedProducts = pendingProducts.filter((product) => idsSet.has(String(product.id)));
+    const remainingPending = pendingProducts.filter((product) => !idsSet.has(String(product.id)));
 
     const mergedProducts = [...currentProducts];
     approvedProducts.forEach((product) => {
-      const index = mergedProducts.findIndex((item) => item.id === product.id);
+      const index = mergedProducts.findIndex((item) => String(item.id) === String(product.id));
       if (index >= 0) {
         mergedProducts[index] = product;
       } else {
@@ -280,7 +283,7 @@ app.post("/api/products/approve", adminAuth, async (req, res) => {
     await fs.writeFile(PENDING_PRODUCTS_JSON, JSON.stringify(remainingPending, null, 2), "utf8");
 
     // Audit
-    await appendAuditEntry({ action: 'approve', ids, by: req.adminUser || null, at: new Date().toISOString() });
+    await appendAuditEntry({ action: 'approve', ids: Array.from(idsSet), by: req.adminUser || null, at: new Date().toISOString() });
 
     return res.json({ success: true, approved: approvedProducts.length, pendingCount: remainingPending.length });
   } catch (error) {
@@ -289,6 +292,32 @@ app.post("/api/products/approve", adminAuth, async (req, res) => {
   }
 });
 
+// Reject endpoint: remove items from pending-products.json
+app.post("/api/products/reject", adminAuth, async (req, res) => {
+  const ids = Array.isArray(req.body?.ids) ? req.body.ids : [];
+  if (!ids.length) {
+    return res.status(400).json({ error: "Select at least one product to reject." });
+  }
+
+  const idsSet = new Set(ids.map((i) => String(i)));
+
+  try {
+    await ensureJsonFile(PENDING_PRODUCTS_JSON, []);
+    const pendingProducts = await readJsonFile(PENDING_PRODUCTS_JSON, []);
+    const remainingPending = pendingProducts.filter((product) => !idsSet.has(String(product.id)));
+    await fs.writeFile(PENDING_PRODUCTS_JSON, JSON.stringify(remainingPending, null, 2), "utf8");
+
+    // Audit
+    await appendAuditEntry({ action: 'reject', ids: Array.from(idsSet), by: req.adminUser || null, at: new Date().toISOString() });
+
+    return res.json({ success: true, rejected: ids.length, pendingCount: remainingPending.length });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Failed to reject products." });
+  }
+});
+
+// Delete/archive endpoint: remove from published products.json, optionally archive
 app.post("/api/products/delete", adminAuth, async (req, res) => {
   const ids = Array.isArray(req.body?.ids) ? req.body.ids : [];
   const archive = Boolean(req.body?.archive);
@@ -296,12 +325,14 @@ app.post("/api/products/delete", adminAuth, async (req, res) => {
     return res.status(400).json({ error: "Select at least one product to delete." });
   }
 
+  const idsSet = new Set(ids.map((i) => String(i)));
+
   try {
     await ensureJsonFile(PRODUCTS_JSON, []);
     const currentProducts = await readJsonFile(PRODUCTS_JSON, []);
 
-    const toRemove = currentProducts.filter((p) => ids.includes(p.id));
-    const remaining = currentProducts.filter((p) => !ids.includes(p.id));
+    const toRemove = currentProducts.filter((p) => idsSet.has(String(p.id)));
+    const remaining = currentProducts.filter((p) => !idsSet.has(String(p.id)));
 
     // write remaining products
     await fs.writeFile(PRODUCTS_JSON, JSON.stringify(remaining, null, 2), "utf8");
@@ -320,11 +351,11 @@ app.post("/api/products/delete", adminAuth, async (req, res) => {
     // Also remove from pending if present
     await ensureJsonFile(PENDING_PRODUCTS_JSON, []);
     const pendingProducts = await readJsonFile(PENDING_PRODUCTS_JSON, []);
-    const remainingPending = pendingProducts.filter((product) => !ids.includes(product.id));
+    const remainingPending = pendingProducts.filter((product) => !idsSet.has(String(product.id)));
     await fs.writeFile(PENDING_PRODUCTS_JSON, JSON.stringify(remainingPending, null, 2), "utf8");
 
     // Audit
-    await appendAuditEntry({ action: archive ? 'archive' : 'delete', ids, by: req.adminUser || null, at: new Date().toISOString(), archivedCount });
+    await appendAuditEntry({ action: archive ? 'archive' : 'delete', ids: Array.from(idsSet), by: req.adminUser || null, at: new Date().toISOString(), archivedCount });
 
     return res.json({ success: true, removed: toRemove.length, archived: archivedCount, pendingCount: remainingPending.length });
   } catch (error) {
