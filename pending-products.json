@@ -1,5 +1,24 @@
 [
   {
+    "id": "PROD-1001",
+    "category": "dresses",
+    "title": "Floral Summer Midi Dress",
+    "description": "High-quality floral summer midi dress designed for comfort, style, and everyday durability.",
+    "price": 50,
+    "imageUrl": "https://example.com/images/dresses/1.jpg",
+    "whatsappText": "Hi! I'm interested in buying the Floral Summer Midi Dress (ID: PROD-1001). Is it still available?",
+    "featured": "FALSE",
+    "mini1_title": "Material & Care",
+    "mini1_desc": "100% Premium Cotton. Premium hand wash only.",
+    "mini2_title": "Shipping Info",
+    "mini2_desc": "Ships next business day. Free tracking included.",
+    "meta1": "floral-summer-midi-dress",
+    "meta2": "buy-dresses-online",
+    "meta3": "in-stock",
+    "meta4": "rating-4.6",
+    "href": "product.html?id=PROD-1001"
+  },
+  {
     "id": "PROD-1002",
     "category": "dresses",
     "title": "Elegant Evening Silk Gown",
@@ -323,22 +342,22 @@
     "href": "product.html?id=PROD-1018"
   },
   {
-    "id": "PROD-1020",
+    "id": "PROD-1019",
     "category": "bags",
-    "title": "Luxury Metallic Evening Bag",
-    "description": "High-quality luxury metallic evening bag designed for comfort, style, and everyday durability.",
-    "price": 145,
-    "imageUrl": "https://example.com/images/bags/20.jpg",
-    "whatsappText": "Hi! I'm interested in buying the Luxury Metallic Evening Bag (ID: PROD-1020). Is it still available?",
-    "featured": "TRUE",
+    "title": "Athletic Nylon Belt Bag",
+    "description": "High-quality athletic nylon belt bag designed for comfort, style, and everyday durability.",
+    "price": 140,
+    "imageUrl": "https://example.com/images/bags/19.jpg",
+    "whatsappText": "Hi! I'm interested in buying the Athletic Nylon Belt Bag (ID: PROD-1019). Is it still available?",
+    "featured": "FALSE",
     "mini1_title": "Material & Care",
     "mini1_desc": "Genuine eco-certified leather. Wipe clean with damp cloth.",
     "mini2_title": "Shipping Info",
     "mini2_desc": "Ships next business day. Free tracking included.",
-    "meta1": "luxury-metallic-evening-bag",
+    "meta1": "athletic-nylon-belt-bag",
     "meta2": "buy-bags-online",
     "meta3": "in-stock",
-    "meta4": "rating-4.5",
-    "href": "product.html?id=PROD-1020"
+    "meta4": "rating-4.9",
+    "href": "product.html?id=PROD-1019"
   }
 ]

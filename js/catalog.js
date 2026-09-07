@@ -2,16 +2,23 @@ document.addEventListener("DOMContentLoaded", () => {
   const container = document.getElementById("category-products");
   if (!container) return;
 
-  const category = container.dataset.category;
-  fetch("products.json")
-    .then((response) => response.json())
+  const category = (container.dataset.category || "").trim().toLowerCase();
+
+  fetch("/api/products", { cache: "no-store" })
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Failed to load products");
+      }
+      return response.json();
+    })
     .then((products) => {
-      const categoryProducts = products.filter(
-        (product) => product.category === category,
-      );
+      const categoryProducts = products.filter((product) => {
+        const productCategory = String(product.category || "").trim().toLowerCase();
+        return productCategory === category;
+      });
 
       if (!categoryProducts.length) {
-        container.innerHTML = `<p>No products found for ${category}.</p>`;
+        container.innerHTML = `<p>No products found for ${category || "this category"}.</p>`;
         return;
       }
 

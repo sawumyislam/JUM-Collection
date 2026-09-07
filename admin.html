@@ -24,10 +24,9 @@
         <section class="page-hero collections-hero">
             <div class="container hero-content">
                 <div class="hero-copy">
-                    <p class="section-label">Admin Upload</p>
-                    <h1>Convert an Excel or CSV file into products.json</h1>
-                    <p>Use this admin page to create a new product catalog file for the site. After conversion, download
-                        the generated file and replace the existing <code>products.json</code> in your project.</p>
+                    <p class="section-label">Admin Panel</p>
+                    <h1>Upload products JSON</h1>
+                    <p>Upload a JSON file containing an array of product objects. The server validates each object and places valid items into the "Pending products" list for review.</p>
                 </div>
             </div>
         </section>
@@ -35,19 +34,40 @@
         <section class="collection-section">
             <div class="container admin-panel">
                 <div class="upload-card">
-                    <label for="product-file">Select a spreadsheet</label>
-                    <input id="product-file" type="file" accept=".xlsx,.xls,.csv" />
-                    <button id="convert-button" class="btn btn-primary" type="button">Upload</button>
-                    <p class="note">Required columns: <strong>id</strong>, <strong>category</strong>,
+                    <label for="product-file">Select products JSON</label>
+                    <input id="product-file" type="file" accept="application/json,.json" />
+                    <div class="admin-actions">
+                        <button id="convert-button" class="btn btn-primary" type="button">Upload JSON to Pending</button>
+                    </div>
+                    <p class="note">Required fields per product: <strong>id</strong>, <strong>category</strong>,
                         <strong>title</strong>, <strong>description</strong>, <strong>price</strong>,
-                        <strong>imageUrl</strong>, <strong>whatsappText</strong>. Optional columns:
-                        <strong>featured</strong>, <strong>mini1_title</strong>, <strong>mini1_desc</strong>,
-                        <strong>mini2_title</strong>, <strong>mini2_desc</strong>,
-                        <strong>meta1</strong>-<strong>meta4</strong>.
+                        <strong>imageUrl</strong>, <strong>whatsappText</strong>. Optional fields are allowed.
                     </p>
                     <div id="result-area" class="admin-result">
-                        <p>Select a file and click Upload to begin.</p>
+                        <p>Select a JSON file and click Upload JSON to Pending to begin.</p>
                     </div>
+                </div>
+
+                <div class="pending-card">
+                    <div class="pending-header">
+                        <h2>Pending products</h2>
+                        <button id="approve-selected" class="btn btn-primary" type="button">Approve selected</button>
+                        <button id="reject-selected" class="btn btn-secondary" type="button">Reject selected</button>
+                    </div>
+                    <div id="pending-list" class="pending-list">
+                        <p>Loading products to review...</p>
+                    </div>
+                </div>
+
+                <div class="upload-card published-card">
+                  <div class="pending-header">
+                    <h2>Published products</h2>
+                    <button id="remove-selected" class="btn btn-secondary" type="button">Remove selected</button>
+                    <button id="archive-selected" class="btn btn-tertiary" type="button">Archive selected</button>
+                  </div>
+                  <div id="published-list" class="pending-list">
+                    <p>Loading published products...</p>
+                  </div>
                 </div>
             </div>
         </section>
@@ -58,6 +78,29 @@
             <p>© 2026 JUM COLLECTION. All rights reserved.</p>
         </div>
     </footer>
+    <!-- Product preview modal -->
+    <div id="product-preview-modal" class="modal hidden">
+      <div class="modal-content">
+        <button class="close-preview" aria-label="Close preview">×</button>
+        <div class="preview-grid">
+          <div class="preview-image-wrap">
+            <img id="preview-image" src="" alt="Preview image" />
+          </div>
+          <div class="preview-meta">
+            <h3 id="preview-title"></h3>
+            <p class="meta-line"><strong>Category:</strong> <span id="preview-category"></span></p>
+            <p class="meta-line"><strong>Price:</strong> <span id="preview-price"></span></p>
+            <p id="preview-description"></p>
+            <p class="meta-actions">
+              <a id="preview-whatsapp" class="btn btn-primary" href="#" target="_blank" rel="noopener">Order via WhatsApp</a>
+              <button id="preview-archive" class="btn btn-tertiary" type="button">Archive</button>
+              <button id="preview-remove" class="btn btn-secondary" type="button">Remove</button>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script src="js/admin.js" defer></script>
 </body>
 

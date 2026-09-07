@@ -92,13 +92,17 @@
     const container = document.getElementById("featured-products");
     if (!container) return;
 
-    fetch("products.json")
-      .then((response) => response.json())
+    fetch("/api/products", { cache: "no-store" })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to load products");
+        }
+        return response.json();
+      })
       .then((products) => {
         const featured = products.filter((product) => product.featured);
         if (!featured.length) {
-          container.innerHTML =
-            "<p>No featured items are available right now.</p>";
+          container.innerHTML = "<p>No featured items are available right now.</p>";
           return;
         }
 
